@@ -171,20 +171,20 @@ class SavePlugin(Plugin):
             return
 
         if len(code_str):
-            chat_linkByCode = ChatLink.by_id(code_str)
-            if chat_linkByCode is None:
+            chat_link = ChatLink.by_id(code_str)
+            if chat_link is None:
                 message.reply_text(text='❌ You must provide a valid code.')
                 return
-            elif chat_id == chat_linkByCode.source_chat_id:
+            elif chat_id == chat_link.source_chat_id:
                 message.reply_text(
                     text='❌ You must run this command in a different chat.')
                 return
-            elif chat_linkByCode.target_chat_id:
+            elif chat_link.target_chat_id:
                 message.reply_text(
                     text='❌ You must provide a code that is not used.')
                 return
 
-            chat_linkByCode.target_chat_id = chat_id
-            chat_linkByCode.save()
+            chat_link.target_chat_id = chat_id
+            chat_link.save()
             message.reply_text(text='✅ Chats linked.')
             return
