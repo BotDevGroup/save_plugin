@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
+import re
 from marvinbot.filters import RegexpFilter
 from marvinbot.handlers import CommandHandler, MessageHandler
 from marvinbot.models import User
@@ -39,7 +40,7 @@ class SavePlugin(Plugin):
                          .add_argument('--unlink', help='Unlink this chat.', action='store_true')
                          .add_argument('code', nargs='*', help='Code'))
         self.add_handler(MessageHandler(RegexpFilter(
-            r'sa+v+e+d*\b'), self.on_save_message))
+            r'sa+v+e+d*\b', flags=re.IGNORECASE), self.on_save_message))
         self.add_handler(MessageHandler(
             [SavePlugin.filter_migrate_chat], SavePlugin.on_chat_migrated, strict=True))
 
